@@ -8,15 +8,20 @@ import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-
+@ExtendWith(MockitoExtension.class)
 public class EmployeServiceTest {
 
+    @InjectMocks
     private EmployeService employeService;
 
+    @Mock
     private EmployeRepository employeRepository;
 
 
