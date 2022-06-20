@@ -1,5 +1,4 @@
 package com.ipiecoles.java.java350.service;
-
 import com.ipiecoles.java.java350.exception.EmployeException;
 import com.ipiecoles.java.java350.model.Employe;
 import com.ipiecoles.java.java350.model.Entreprise;
@@ -8,13 +7,10 @@ import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
-
 @Service
 public class EmployeService {
-
     @Autowired
     private EmployeRepository employeRepository;
 
@@ -31,10 +27,8 @@ public class EmployeService {
      * @throws EntityExistsException Si le matricule correspond à un employé existant
      */
     public void embaucheEmploye(String nom, String prenom, Poste poste, NiveauEtude niveauEtude, Double tempsPartiel) throws EmployeException, EntityExistsException {
-
         //Récupération du type d'employé à partir du poste
         String typeEmploye = poste.name().substring(0,1);
-
         //Récupération du dernier matricule...
         String lastMatricule = employeRepository.findLastMatricule();
         if(lastMatricule == null){
@@ -48,26 +42,20 @@ public class EmployeService {
         //On complète le numéro avec des 0 à gauche
         String matricule = "00000" + numeroMatricule;
         matricule = typeEmploye + matricule.substring(matricule.length() - 5);
-
         //On vérifie l'existence d'un employé avec ce matricule
         if(employeRepository.findByMatricule(matricule) != null){
             throw new EntityExistsException("L'employé de matricule " + matricule + " existe déjà en BDD");
         }
-
         //Calcul du salaire
         Double salaire = Entreprise.COEFF_SALAIRE_ETUDES.get(niveauEtude) * Entreprise.SALAIRE_BASE;
         if(tempsPartiel != null){
             salaire = salaire * tempsPartiel;
         }
-
+        salaire = Math.round(salaire * 100) / 100d;
         //Création et sauvegarde en BDD de l'employé.
         Employe employe = new Employe(nom, prenom, matricule, LocalDate.now(), salaire, Entreprise.PERFORMANCE_BASE, tempsPartiel);
-
         employeRepository.save(employe);
-
     }
-
-
     /**
      * Méthode calculant la performance d'un commercial en fonction de ses objectifs et du chiffre d'affaire traité dans l'année.
      * Cette performance lui est affectée et sauvegardée en BDD
@@ -102,7 +90,6 @@ public class EmployeService {
         if(employe == null){
             throw new EmployeException("Le matricule " + matricule + " n'existe pas !");
         }
-
         Integer performance = Entreprise.PERFORMANCE_BASE;
         //Cas 2
         if(caTraite >= objectifCa*0.8 && caTraite < objectifCa*0.95){
@@ -121,13 +108,11 @@ public class EmployeService {
             performance = employe.getPerformance() + 4;
         }
         //Si autre cas, on reste à la performance de base.
-
         //Calcul de la performance moyenne
         Double performanceMoyenne = employeRepository.avgPerformanceWhereMatriculeStartsWith("C");
         if(performanceMoyenne != null && performance > performanceMoyenne){
             performance++;
         }
-
         //Affectation et sauvegarde
         employe.setPerformance(performance);
         employeRepository.save(employe);
