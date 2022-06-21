@@ -5,10 +5,13 @@ import com.ipiecoles.java.java350.model.Entreprise;
 import com.ipiecoles.java.java350.model.NiveauEtude;
 import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityExistsException;
 import java.time.LocalDate;
+
 @Service
 public class EmployeService {
     @Autowired
@@ -26,24 +29,45 @@ public class EmployeService {
      * @throws EmployeException Si on arrive au bout des matricules possibles
      * @throws EntityExistsException Si le matricule correspond à un employé existant
      */
+
+    private Logger LOGGER = LoggerFactory.getLogger(EmployeService.class);
+
+
     public void embaucheEmploye(String nom, String prenom, Poste poste, NiveauEtude niveauEtude, Double tempsPartiel) throws EmployeException, EntityExistsException {
+        LOGGER.info("EMBAUCHE de l'employé :  {} {} {} {} {} ",nom,prenom,poste,niveauEtude,tempsPartiel );
         //Récupération du type d'employé à partir du poste
+        LOGGER.info("Récupération du type d'employé à partir du poste {}",poste);
+
+
         String typeEmploye = poste.name().substring(0,1);
         //Récupération du dernier matricule...
+
+
         String lastMatricule = employeRepository.findLastMatricule();
         if(lastMatricule == null){
+            LOGGER.warn("Aucun employe trouver initialisation du matricule initiale : {} ", Entreprise.MATRICULE_INITIAL);
             lastMatricule = Entreprise.MATRICULE_INITIAL;
         }
         //... et incrémentation
         Integer numeroMatricule = Integer.parseInt(lastMatricule) + 1;
-        if(numeroMatricule >= 100000){
+
+        if(numeroMatricule >= 100000) {
+            LOGGER.error("Limite des 100000 matricules atteinte ! valeur actuelle demande : {}", numeroMatricule);
             throw new EmployeException("Limite des 100000 matricules atteinte !");
         }
+        if (numeroMatricule >= 90000){
+            LOGGER.warn("Matricule 90000 dépasser : {}", numeroMatricule);
+        }
+
         //On complète le numéro avec des 0 à gauche
         String matricule = "00000" + numeroMatricule;
         matricule = typeEmploye + matricule.substring(matricule.length() - 5);
+
+        LOGGER.info("Matricule calculé: {}",matricule);
+
         //On vérifie l'existence d'un employé avec ce matricule
         if(employeRepository.findByMatricule(matricule) != null){
+            LOGGER.error("L'employé de matricule " + matricule + " existe déjà en BDD");
             throw new EntityExistsException("L'employé de matricule " + matricule + " existe déjà en BDD");
         }
         //Calcul du salaire
@@ -51,10 +75,20 @@ public class EmployeService {
         if(tempsPartiel != null){
             salaire = salaire * tempsPartiel;
         }
+
         salaire = Math.round(salaire * 100) / 100d;
+        LOGGER.info("Salaire calculé: {}",salaire);
+        //logger info
+
+
         //Création et sauvegarde en BDD de l'employé.
         Employe employe = new Employe(nom, prenom, matricule, LocalDate.now(), salaire, Entreprise.PERFORMANCE_BASE, tempsPartiel);
         employeRepository.save(employe);
+
+        LOGGER.info("Employé après la sauvegarde: {} ", employe.toString());
+
+        LOGGER.info("Fin de la méthode embauche Employe",salaire);
+
     }
     /**
      * Méthode calculant la performance d'un commercial en fonction de ses objectifs et du chiffre d'affaire traité dans l'année.

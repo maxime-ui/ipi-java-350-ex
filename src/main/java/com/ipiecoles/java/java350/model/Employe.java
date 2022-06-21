@@ -30,6 +30,19 @@ public class Employe {
 
     private Double tempsPartiel = 1.0;
 
+    public String toString() {
+        return "Employe{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", matricule='" + matricule + '\'' +
+                ", dateEmbauche=" + dateEmbauche +
+                ", salaire=" + salaire +
+                ", performance=" + performance +
+                ", tempsPartiel=" + tempsPartiel +
+                '}';
+    }
+
     public Employe() {
     }
 
