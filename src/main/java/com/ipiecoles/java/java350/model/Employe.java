@@ -1,5 +1,7 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -72,22 +74,40 @@ public class Employe {
         return getNbRtt(LocalDate.now());
     }
 
-
-
+    /**
+     *
+     * @param dateActuel
+     * @return
+     */
     //renommer variables pour rendre plus compréhensible et faire la java doc indenter ajouter le break manquant
-    public Integer getNbRtt(LocalDate d){
-        int i1 = d.isLeapYear() ? 366 : 365;int var = 104;
-        switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
-        case THURSDAY: if(d.isLeapYear()) var =  var + 1; break;
+    public Integer getNbRtt(LocalDate dateActuel){
+        int NbrDeJourAnnee = dateActuel.isLeapYear() ? 366 : 365;
+        //somme de tous les samedi et dimanche dans l'anée
+        int NbrJourWeekdend = 104;
+        //on recupère le jour du 1 Janvier de l'année de dateActuel
+        switch (LocalDate.of(dateActuel.getYear(),1,1).getDayOfWeek()){
+        case THURSDAY:
+            //si date actuel est une année bissextile et que c'est un Jeudi
+            if(dateActuel.isLeapYear())
+                NbrJourWeekdend =  NbrJourWeekdend + 1;
+            break;
+            //si date actuel est une année bissextile et que c'est un Vendredi
         case FRIDAY:
-        if(d.isLeapYear()) var =  var + 2;
-        else var =  var + 1;
-        case SATURDAY:var = var + 1;
-                    break;
+            if(dateActuel.isLeapYear()) NbrJourWeekdend =  NbrJourWeekdend + 2;
+            else NbrJourWeekdend =  NbrJourWeekdend + 1;
+            break;
+            //si date actuel est une année bissextile et que c'est un Samedi
+        case SATURDAY:
+            NbrJourWeekdend = NbrJourWeekdend + 1;
+            break;
+
+            default :
+                break;
         }
-        int monInt = (int) Entreprise.joursFeries(d).stream().filter(localDate ->
+
+        int NbrDeJoursFeries = (int) Entreprise.joursFeries(dateActuel).stream().filter(localDate ->
                 localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue()).count();
-        return (int) Math.ceil((i1 - Entreprise.NB_JOURS_MAX_FORFAIT - var - Entreprise.NB_CONGES_BASE - monInt) * tempsPartiel);
+        return (int) Math.ceil((NbrDeJourAnnee - Entreprise.NB_JOURS_MAX_FORFAIT - NbrJourWeekdend - Entreprise.NB_CONGES_BASE - NbrDeJoursFeries) * tempsPartiel);
     }
 
     /**
@@ -127,7 +147,15 @@ public class Employe {
 
     //Augmenter salaire
     //ne pas changer la signature de la méthode
-    public void augmenterSalaire(double pourcentage){}
+    public double augmenterSalaire(double pourcentage) throws EmployeException {
+        if(pourcentage > 0 ){
+            salaire =+ (salaire * pourcentage/100);
+        }else{
+            throw new EmployeException("Dimition du salaire donc plus une augementation");
+        }
+
+        return salaire;
+    }
 
     public Long getId() {
         return id;
