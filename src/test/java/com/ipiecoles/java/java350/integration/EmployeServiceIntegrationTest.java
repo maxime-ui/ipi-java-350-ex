@@ -8,23 +8,29 @@ import com.ipiecoles.java.java350.model.Poste;
 import com.ipiecoles.java.java350.repository.EmployeRepository;
 import com.ipiecoles.java.java350.service.EmployeService;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 public class EmployeServiceIntegrationTest {
 
-    @InjectMocks
+    @Autowired
     private EmployeService employeService;
 
-    @Mock
+    @Autowired
     private EmployeRepository employeRepository;
 
+    @BeforeEach
+    @AfterEach
+    public void setup(){
+        employeRepository.deleteAll();
+    }
 
     @Test
     public void EmployeServiceEmbauche() throws EmployeException{

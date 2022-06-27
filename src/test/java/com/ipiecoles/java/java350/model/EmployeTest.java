@@ -136,18 +136,16 @@ public class EmployeTest {
     })
 
 
-
     public void augmenterSalaireTest(Double pourcentage,Double salaire) throws EmployeException {
 
         //Given
         Employe employe = new Employe("Manage","Manager","00001",LocalDate.now(),2500d,1,1d);
 
         //When
-         salaire += employe.augmenterSalaire(pourcentage);
+        salaire += employe.augmenterSalaire(pourcentage);
         //Then
         Assertions.assertThat(salaire).isEqualTo(salaire);
 
-        System.out.println(salaire);
     }
 
 }

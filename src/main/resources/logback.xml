@@ -1,4 +1,3 @@
-<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
@@ -30,13 +29,13 @@
             <Pattern>
                 %d{yyyy-MM-dd HH:mm:ss} - %-5level - %msg%n
             </Pattern>
-            <filter class="ch.qos.logback.classic.filter.LevelFilter">
-                <level>INFO</level>
-            </filter>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+        </filter>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            &lt;!&ndash; rollover daily &ndash;&gt;
+<!--            &lt;!&ndash; rollover daily &ndash;&gt;-->
             <fileNamePattern>archived/info.%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
@@ -48,9 +47,9 @@
     </appender>
 
     <logger name="com.ipiecoles.java" level="info" additivity="false">
-        <appender-ref ref="ERROR_LOG" />
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="INFO_LOG" />
+       <appender-ref ref="ERROR_LOG" />
+       <appender-ref ref="STDOUT" />
+       <appender-ref ref="INFO_LOG" />
     </logger>
 
     <root level="info">
