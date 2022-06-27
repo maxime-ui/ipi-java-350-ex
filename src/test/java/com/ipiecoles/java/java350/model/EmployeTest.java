@@ -1,5 +1,6 @@
 package com.ipiecoles.java.java350.model;
 
+import com.ipiecoles.java.java350.exception.EmployeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -126,4 +127,25 @@ public class EmployeTest {
         //Then
         Assertions.assertThat(nbRtt).isEqualTo(nbRttAttendu);
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "'0',2500d",
+            "'20',2500d",
+            "'35.5',2500d",
+    })
+
+
+    public void augmenterSalaireTest(Double pourcentage,Double salaire) throws EmployeException {
+
+        //Given
+        Employe employe = new Employe("Manage","Manager","00001",LocalDate.now(),2500d,1,1d);
+
+        //When
+        salaire += employe.augmenterSalaire(pourcentage);
+        //Then
+        Assertions.assertThat(salaire).isEqualTo(salaire);
+
+    }
+
 }

@@ -84,7 +84,7 @@ Tester de façon intégrée un cas nominal de la méthode `embaucheEmploye` de l
 
 # Evaluation
 
-Commencer par faire une branche `evaluation` à partir de votre branche `master` une fois le TP terminé. Travailler sur cette branche pour l'évaluation.
+Commencer par faire une branche `eval` à partir de votre branche `master` une fois le TP terminé. Travailler sur cette branche pour l'évaluation.
 
 ## Tests unitaires et TDD
 
@@ -102,7 +102,6 @@ Infos :
 
 - Tester de manière intégrée une cas nominal de la méthode précédente
 - Tester de manière intégrée la méthode d'`EmployeRepository` `avgPerformanceWhereMatriculeStartsWith`
-- BONUS Ecrire un test d'acceptation Gauge pour la fonctionnalité de calcul de performance d'un commercial.
 
 ## Autres
 
@@ -111,4 +110,4 @@ Infos :
 
 ## Revue de code
 
-En fin de TP, créer une Pull Request de votre branche `evaluation` vers `master` et mettez-vous d'accord avec un collègue pour qu'il fasse la revue de code. Faites les éventuelles modifications puis affectez-moi la PR.
+En fin de TP, créer une Pull Request de votre branche `eval` vers `master` et mettez-vous d'accord avec un collègue pour qu'il fasse la revue de code. Faites les éventuelles modifications puis affectez-moi la PR.
