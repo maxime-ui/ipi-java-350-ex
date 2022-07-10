@@ -123,7 +123,16 @@ case SATURDAY:var = var + 1;
     }
 
     //Augmenter salaire
-    //public void augmenterSalaire(double pourcentage){}
+    //ne pas changer la signature de la méthode
+    public double augmenterSalaire(double pourcentage) throws EmployeException {
+        if(pourcentage >= 0 ){
+            salaire += (salaire * pourcentage/100);
+        }else{
+            throw new EmployeException(" pourcentage inférieur à 0 donc c'est une diminution du salaire ");
+        }
+
+        return salaire;
+    }
 
     public Long getId() {
         return id;
