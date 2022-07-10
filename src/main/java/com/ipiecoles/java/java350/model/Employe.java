@@ -144,7 +144,7 @@ public class Employe {
 
     //Augmenter salaire
     //ne pas changer la signature de la méthode
-    private double augmenterSalaire(double pourcentage) throws EmployeException {
+    public double augmenterSalaire(double pourcentage) throws EmployeException {
         if(pourcentage >= 0 ){
             salaire += (salaire * pourcentage/100);
         }else{
