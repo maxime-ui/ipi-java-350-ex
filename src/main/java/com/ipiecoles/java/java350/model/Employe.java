@@ -124,7 +124,7 @@ case SATURDAY:var = var + 1;
 
     //Augmenter salaire
     //ne pas changer la signature de la méthode
-    public double augmenterSalaire(double pourcentage) throws EmployeException {
+    private double augmenterSalaire(double pourcentage) throws EmployeException {
         if(pourcentage >= 0 ){
             salaire += (salaire * pourcentage/100);
         }else{
