@@ -119,9 +119,6 @@ public class EmployeServiceTest {
 
         //Then
         Employe employe = employeRepository.findByMatricule("C12346");
-
-
-
     }
 
 
