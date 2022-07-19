@@ -1,6 +1,6 @@
 package com.ipiecoles.java.java350.service;
 
-import com.ipiecoles.java.java350.exception.EmployeException;
+importcom.ipiecoles.java.java350.exception.EmployeException;
 import com.ipiecoles.java.java350.model.Employe;
 import com.ipiecoles.java.java350.model.Entreprise;
 import com.ipiecoles.java.java350.model.NiveauEtude;
@@ -109,6 +109,20 @@ public class EmployeServiceTest {
 
     }
 
+    @Test
+    public void calculPerformanceCommercial() throws EmployeException{
+        //Given
+        Mockito.when(employeRepository.findLastMatricule()).thenReturn("12345");
+        Mockito.when(employeRepository.findByMatricule("C12346")).thenReturn(null);
+        //When
+        employeService.calculPerformanceCommercial("C12346",15,17);
+
+        //Then
+        Employe employe = employeRepository.findByMatricule("C12346");
+
+
+
+    }
 
 
 
