@@ -56,4 +56,18 @@ public class EmployeRepositoryTest {
         //Then
         Assertions.assertEquals("40325", lastMatricule);
     }
+    @Test
+    public void TestavgPerformanceWhereMatriculeStartsWith(){
+        //Given
+        employeRepository.save(new Employe("Doe", "John", "T12345", LocalDate.now(), Entreprise.SALAIRE_BASE, 1, 1.0));
+
+        //When
+        Double perfomance = employeRepository.avgPerformanceWhereMatriculeStartsWith("T")
+
+        //Then
+        Assertions.assertEquals("12345", perfomance);
+    }
+
+
+
 }
