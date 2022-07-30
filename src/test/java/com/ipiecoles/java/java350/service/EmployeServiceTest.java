@@ -116,7 +116,6 @@ public class EmployeServiceTest {
         Mockito.when(employeRepository.findByMatricule("C12346")).thenReturn(null);
         //When
         employeService.calculPerformanceCommercial("C12346",15,17);
-
         //Then
         Employe employe = employeRepository.findByMatricule("C12346");
     }
