@@ -65,7 +65,7 @@ public class EmployeRepositoryTest {
         Double perfomance = employeRepository.avgPerformanceWhereMatriculeStartsWith("T")
 
         //Then
-        Assertions.assertEquals("12345", perfomance);
+        Assertions.assertEquals("200", perfomance);
     }
 
 
